@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "933855301940",
+    "firebase_url": "https://smartage-ps2018.firebaseio.com",
+    "project_id": "smartage-ps2018",
+    "storage_bucket": "smartage-ps2018.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933855301940:android:9929d2f8f82f1858",
+        "android_client_info": {
+          "package_name": "com.example.flaviomassimo.smartage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933855301940-u00sqkn3e8idkkd23cm0o30578alvdbo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flaviomassimo.smartage",
+            "certificate_hash": "e00d5d26281daa9cb11c9bdf0853900ddd0edff1"
+          }
+        },
+        {
+          "client_id": "933855301940-95cl3uktsb36mufm6b83b6hsileei5op.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGebf__pGMrqX-zemCntxV51it_d4IzyY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933855301940-95cl3uktsb36mufm6b83b6hsileei5op.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
