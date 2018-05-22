@@ -1,4 +1,6 @@
 import serial
+from serial import SerialException
+
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
@@ -10,10 +12,6 @@ def create_db_connection():
     firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://smartage-ps2018.firebaseio.com/'
     })
-
-    # As an admin, the app has access to read and write all data, regradless of Security Rules
-    ref = db.reference('GCì')
-    print(ref.get())
 
 def check_if_present(gc_id):
     if (db.reference('GCs/'+gc_id).get() == None):
@@ -34,22 +32,23 @@ def create_value(gc_id, value):
         }
     })
 
-
+#variable to check whether the next serial messages are to catch or not
 next_message = 0
+#set the serial communication
 ser = serial.Serial()
 ser.port = 'COM3'
 ser.baudrate = 230400
 ser.open()
 print("WAITING FOR MESSAGES")
+
 distance = 0
 identifier= ""
-
 create_db_connection()
 
 while (True):
     try:
         line = ser.readline()
-        if (b'DISTANCE' in line):
+        if (b'DISTANCE' in line): #20 cm il prototipo da vuoto
             next_message = 2
         elif(next_message == 2):
                 distance=int(line.strip().split(b" ")[1].decode("utf-8"))
@@ -72,3 +71,6 @@ while (True):
     except KeyboardInterrupt:
            print("Fine esecuzione")
            exit()
+    except SerialException:
+        print("Sembra essersi disconnesso il device")
+        exit()
