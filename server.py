@@ -19,16 +19,24 @@ def check_if_present(gc_id):
     else:
         return True
 
-def update_value(gc_id, value):
+def update_value(gc_id, value, empty, temperature, gyro):
     ref = db.reference('GCs')
     gc_ref = ref.child(gc_id)
-    gc_ref.update({'distance' : value})
+    gc_ref.update({
+        'distance' : value,
+        'empty' : empty,
+        'temperature' : temperature,
+        'gyro' : gyro
+    })
 
-def create_value(gc_id, value):
+def create_value(gc_id, value, empty, temperature, gyro):
     ref = db.reference('GCs')
     ref.set({
         gc_id : {
-            'distance' : value
+            'distance' : value,
+            'empty' : empty,
+            'temperature' : temperature,
+            'gyro' : gyro
         }
     })
 
@@ -43,25 +51,49 @@ print("WAITING FOR MESSAGES")
 
 distance = 0
 identifier= ""
+empty = 0
+temperature = 0
+gyro = ""
 create_db_connection()
 
 while (True):
     try:
         line = ser.readline()
+    
         if (b'DISTANCE' in line): #20 cm il prototipo da vuoto
-            next_message = 2
-        elif(next_message == 2):
+            next_message = 5
+        elif(next_message == 5):
                 distance=int(line.strip().split(b" ")[1].decode("utf-8"))
-                next_message=1
-        elif(next_message == 1):
+                #print(distance)
+                next_message -= 1
+        elif(next_message == 4):
                 identifier=line.strip().split(b" ")[1].decode("utf-8")[:-1]
-
-                if (check_if_present(identifier)):
-                    update_value(identifier, distance)
+                #print(identifier)
+                next_message -= 1
+        elif (next_message == 3):
+                empty=int(line.strip().split(b" ")[1].decode("utf-8"))
+                #print(empty)
+                next_message -= 1
+        elif (next_message == 2):
+                #print(line)
+                temperature = float(line.strip().strip(b"@").split(b" ")[1].decode("utf-8"))
+                #print(temperature)
+                next_message -= 1
+        elif (next_message == 1):
+                #print(line)
+                if (b"FI" in line):
+                    gyro = "FINE";
                 else:
-                    create_value(identifier, distance)
+                    gyro = "TILT";
+                #print(gyro)
+                next_message -= 1
+        
+                if (check_if_present(identifier)):
+                    update_value(identifier, distance, empty, temperature, gyro)
+                else:
+                    create_value(identifier, distance, empty, temperature, gyro)
 
-                print("{0} {1}".format(distance, identifier))
+                print("{0} {1} {2} {3} {4}".format(distance, identifier, empty, temperature, gyro))
                 next_message=0
 
     except UnicodeDecodeError:
@@ -71,6 +103,8 @@ while (True):
     except KeyboardInterrupt:
            print("Fine esecuzione")
            exit()
+    except IndexError:
+            print("Errore nell' indice");
     except SerialException:
         print("Sembra essersi disconnesso il device")
         exit()
