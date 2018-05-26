@@ -40,10 +40,10 @@ public class Garbage_Thread extends Application implements Runnable {
     public void run(){
 
         while (!Thread.currentThread().isInterrupted()) {
-            System.out.println("in thread prima on data change");
+            //System.out.println("in thread prima on data change");
             myRef.addValueEventListener(val);
             try {
-                Thread.sleep(2000);
+                Thread.sleep(9000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -72,4 +72,5 @@ public class Garbage_Thread extends Application implements Runnable {
 
 
     }
+
 }

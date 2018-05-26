@@ -1,58 +1,65 @@
 package com.example.flaviomassimo.smartage;
 
+import java.util.LinkedList;
+
 public class GarbageCollector {
 
 
-    private static String Name;
-    private static float Latitude,Longitude;
-    private static long Empty;
-    private static long Soil;
-    private static long value;
-    private static boolean notificated=false;
-    public GarbageCollector(String name,int empty,int soil){
+    private  String Name;
+    private double Latitude,Longitude;
+    private double Empty;
+    private double Soil;
+    private double value=17;
+    private boolean notificated=false;
+    public GarbageCollector(String name,double empty,double soil){
         Name=name;
         Empty=empty;
         Soil=soil;
 
     }
 
-    public static String getName(){
+    public  String getName(){
 
         return Name;
     }
 
-    public static long getEmptyValue(){
+    public  double getEmptyValue(){
 
         return Empty;
     }
-    public static long getSoil(){
+    public  double getSoil(){
 
         return Soil;
     }
 
 
 
-    public void setPosition(float latitude,float longitude){
+    public void setPosition(double latitude,double longitude){
 
         Latitude=latitude;
         Longitude=longitude;
     }
-    public static String getPosition(){
+    public  String getPosition(){
 
         return "Latitude: "+Latitude+", Longitude: "+Longitude;
     }
-    public void setValue(long val){
+
+    public  double getLatitude(){return Latitude;}
+    public  double getLongitude(){return Longitude;}
+    public void setValue(double val){
         value=val;
 
     }
-    public float getFullPercentage(){
+    public double getFullPercentage(){
 
         if(value!=0 && value<Empty){
+
+            double val=Empty-value;
             return (Empty-value)/Empty;
         }
         else return 0;
     }
-    public long getValue(){
+    public double getValue(){
 
         return value;
     }
@@ -60,4 +67,6 @@ public class GarbageCollector {
     public void setNotificated(Boolean bol){notificated=bol;}
 
     public boolean getNotificated(){return notificated;}
+
+
 }

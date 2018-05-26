@@ -57,6 +57,8 @@ public static LinkedList<GarbageCollector> getGarbageCollectors(){
 
         return CollectorList;
 }
-
+    public static void setGarbageCollectors(LinkedList<GarbageCollector> l){
+    CollectorList=l;
+    }
 
 }

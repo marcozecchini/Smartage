@@ -50,18 +50,28 @@ public class MenuActivity extends AppCompatActivity
     private FirebaseDatabase database;
     Thread GARBAGE_THREAD;
     private String position="";
-
+    private boolean inserted=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        System.out.println("precreazione");
+        if(list.isEmpty()){
+            System.out.println("in creazione");
+
+            construct();
+            }
+        for(GarbageCollector c:list){
+
+            System.out.println(c.getName()+", "+c.getValue());
+        }
         t=(TextView) findViewById(R.id.distance);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("GCs");
         if(!created) {
             createChannel("GARBAGE_CHANNEL", "CHANNEL FOR FULL GARBAGE COLLECTOR NOTIFICATION");
             createNotification();
-
+        }
 
             ValueEventListener valEvent =(new ValueEventListener() {
                 @Override
@@ -70,31 +80,27 @@ public class MenuActivity extends AppCompatActivity
                     // whenever data at this location is updated.
                     Iterable<DataSnapshot> value = dataSnapshot.getChildren();
                     Iterator it= value.iterator();
-                    System.out.println("pre iteratore");
+                    //System.out.println("pre iteratore");
                     while(it.hasNext()){
                         DataSnapshot data=(DataSnapshot) it.next();
-                        GarbageCollector garbage= new GarbageCollector(data.getKey(),20,7);
+                        GarbageCollector garbage= new GarbageCollector(data.getKey(),20.0,7.0);
                         garbage.setValue((long)data.child("distance").getValue());
-                        System.out.println((long)data.child("distance").getValue());
-                        if(!list.contains(garbage)){
-                            list.add(garbage);
-                            System.out.println("Added garbageCollector"+garbage);
-                        }
-                        else {
+                            int i=0;
 
                             for(GarbageCollector g:list){
                                 if(g.getName().equals(garbage.getName())){
+                                    inserted=true;
                                     if(g.getValue()!=garbage.getValue()){
                                         g.setValue(garbage.getValue());
-                                        System.out.println(g.getValue());
+
 
                                     }
 
                                 }
-                                System.out.println(garbage.getValue());
-                                System.out.println(garbage.getFullPercentage()*100+"%");
+                                //System.out.println(g.getName()+", "+g.getValue()+",  " +g.getFullPercentage()*100+"% full");
                             }
-                        }
+                            if(!inserted){list.add(garbage); inserted=false;}
+
 
 
 
@@ -127,7 +133,7 @@ public class MenuActivity extends AppCompatActivity
             System.out.println("thread partito");
             created=true;
 
-        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -240,4 +246,41 @@ public class MenuActivity extends AppCompatActivity
 
 
     }
+
+public void construct(){
+    GarbageCollector garbage= new GarbageCollector("GC-0",20.0,7.0);
+    garbage.setPosition(41.887637,12.521629);
+    list.add(garbage);
+
+    GarbageCollector garbage1= new GarbageCollector("GC-1",20.0,7.0);
+    garbage1.setPosition(41.890758,12.503817);
+    list.add(garbage1);
+    GarbageCollector garbage2= new GarbageCollector("GC-2",20.0,7.0);
+    garbage2.setPosition(41.892773, 12.504529);
+    garbage2.setValue(13.0);
+    list.add(garbage2);
+    GarbageCollector garbage3= new GarbageCollector("GC-3",20.0,7.0);
+    garbage3.setPosition(41.895353, 12.500699);
+    garbage3.setValue(9);
+    list.add(garbage3);
+    GarbageCollector garbage4= new GarbageCollector("GC-4",20.0,7.0);
+    garbage4.setPosition(41.891448,12.499240);
+    garbage4.setValue(18);
+    list.add(garbage4);
+    GarbageCollector garbage5= new GarbageCollector("GC-5",20.0,7.0);
+    garbage5.setPosition(41.888836,12.494938);
+    garbage5.setValue(2);
+    list.add(garbage5);
+    GarbageCollector garbage6= new GarbageCollector("GC-6",20.0,7.0);
+    garbage6.setPosition(41.878971,12.503019);
+    garbage6.setValue(8);
+    list.add(garbage6);
+    GarbageCollector garbage7= new GarbageCollector("GC-7",20.0,7.0);
+    garbage7.setPosition(41.876638,12.507407);
+    garbage7.setValue(3);
+    list.add(garbage7);
+    GarbageCollector garbage8= new GarbageCollector("GC-8",20.0,7.0);
+    garbage8.setPosition(41.881040,12.509867);
+    garbage8.setValue(5);
+    list.add(garbage8);}
 }
