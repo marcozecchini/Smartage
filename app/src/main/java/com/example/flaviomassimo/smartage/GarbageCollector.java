@@ -9,15 +9,40 @@ public class GarbageCollector {
     private double Latitude,Longitude;
     private double Empty;
     private double Soil;
+    private double Temperature;
+    private String Gyro;
     private double value=17;
-    private boolean notificated=false;
-    public GarbageCollector(String name,double empty,double soil){
+    private boolean notificated=false,tempNot=false,tilt=false;
+    public GarbageCollector(String name,long empty){
         Name=name;
-        Empty=empty;
-        Soil=soil;
+        Empty=(double)empty;
 
     }
+    public double getTemperature(){
 
+        return Temperature;
+    }
+    public boolean getTilt(){
+        return tilt;
+    }
+    public void setTilt(Boolean b){tilt=b;}
+
+    public boolean getTempHot(){
+        return tempNot;
+    }
+    public void setTempHot(Boolean b){tempNot=b;}
+
+    public void setTemperature(double temp){
+        Temperature=temp;
+    }
+
+    public String getGyro(){
+        return Gyro;
+    }
+    public void setGyro(String gyro){
+
+        Gyro=gyro;
+    }
     public  String getName(){
 
         return Name;
@@ -46,6 +71,9 @@ public class GarbageCollector {
 
     public  double getLatitude(){return Latitude;}
     public  double getLongitude(){return Longitude;}
+
+    public  void setLatitude(double lat){Latitude=lat;}
+    public  void setLongitude(double longitude){Longitude=longitude;}
     public void setValue(double val){
         value=val;
 
@@ -54,7 +82,6 @@ public class GarbageCollector {
 
         if(value!=0 && value<Empty){
 
-            double val=Empty-value;
             return (Empty-value)/Empty;
         }
         else return 0;

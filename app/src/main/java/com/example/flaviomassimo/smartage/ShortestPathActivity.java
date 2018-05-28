@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -19,6 +20,12 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.akexorcist.googledirection.DirectionCallback;
+import com.akexorcist.googledirection.GoogleDirection;
+import com.akexorcist.googledirection.constant.TransportMode;
+import com.akexorcist.googledirection.model.Direction;
+import com.akexorcist.googledirection.model.Route;
+import com.akexorcist.googledirection.util.DirectionConverter;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -33,17 +40,19 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import static com.example.flaviomassimo.smartage.Constants.serverKey;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class ShortestPathActivity extends FragmentActivity implements OnMapReadyCallback {
 
     LinkedList<GarbageCollector> list;
-
-
     private FusedLocationProviderClient FusedLocationClient;
     private GoogleApiClient mGoogleApiClient;
+    private Polyline previousPolilyne;
 
     GoogleMap mGoogleMap;
     SupportMapFragment mapFrag;
@@ -51,6 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Location mLastLocation;
     Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +99,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID); //da decidere
 
@@ -108,7 +117,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } else {
                 //Request Location Permission
                 checkLocationPermission();
-
             }
         }
         else {
@@ -117,7 +125,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
-        for(GarbageCollector g: list ) {
+        for (GarbageCollector g : list) {
             LatLng pos=new LatLng(g.getLatitude(),g.getLongitude());
             if(g.getFullPercentage()<0.33){Marker marker = mGoogleMap.addMarker(new MarkerOptions()
                     .position(pos)
@@ -134,23 +142,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .title("Marker "+g.getName())
                     .snippet("Full at "+g.getFullPercentage()*100+"%")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));}
-
-
-
-            //mMap.addMarker(new MarkerOptions().position(pos).title("Marker "+g.getName()+"\n Full at"+g.getFullPercentage()));
+            //possibilità di aggiungere icona cestino
         }
 
+        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if(previousPolilyne != null) previousPolilyne.remove();
+                LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                LatLng markerLocation = marker.getPosition();
+                GoogleDirection.withServerKey(serverKey)
+                        .from(myLocation)
+                        .to(markerLocation)
+                        .transportMode(TransportMode.DRIVING)
+                        .execute(new DirectionCallback() {
+                            @Override
+                            public void onDirectionSuccess(Direction direction, String rawBody) {
+                                if (direction.isOK()){
+                                    Route route = direction.getRouteList().get(0);
 
+                                    ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
+                                    previousPolilyne = mGoogleMap.addPolyline(DirectionConverter.createPolyline(context, directionPositionList, 5, Color.RED));
+                                }
+                            }
+
+                            @Override
+                            public void onDirectionFailure(Throwable t) {
+                                Toast.makeText(context,"Error in directions", Toast.LENGTH_LONG);
+                            }
+                        });
+
+                return true;
+            }
+        });
 
     }
 
+    Location location = null;
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             List<Location> locationList = locationResult.getLocations();
             if (locationList.size() > 0) {
                 //The last location in the list is the newest
-                Location location = locationList.get(locationList.size() - 1);
+                location = locationList.get(locationList.size() - 1);
                 Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;
                 if (mCurrLocationMarker != null) {
@@ -164,7 +199,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 markerOptions.title("Current Position");
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
                 mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
-*/
+                */
                 //move map camera
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
             }
@@ -190,7 +225,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(MapsActivity.this,
+                                ActivityCompat.requestPermissions(ShortestPathActivity.this,
                                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                         MY_PERMISSIONS_REQUEST_LOCATION );
                             }
@@ -240,6 +275,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // permessi che questa app potrebbe richiedere
         }
     }
-
 
 }

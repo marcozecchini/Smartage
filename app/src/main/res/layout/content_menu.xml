@@ -9,17 +9,52 @@
     tools:showIn="@layout/app_bar_menu">
 
     <TextView
-        android:id="@+id/distance"
-        android:layout_width="221dp"
-        android:layout_height="108dp"
+        android:id="@+id/textView8"
+        android:layout_width="367dp"
+        android:layout_height="196dp"
+        android:layout_marginBottom="236dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Smartage is a project for the course of Pervasive Systems a.y. 2017/2018 in the Sapienza University. The main idea is to allow to manage the garbage collectors of an area, in fact we can see if they are currently full or the percentage of their fullness. We can also see the shortest path among the full garbage collectors in order to develop a smart way of collection of the trash."
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.132" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="324dp"
+        android:layout_height="68dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textSize="50sp"
+        android:text="What is Smartage?"
+        android:textColor="#33cc33"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="219dp"
+        android:layout_height="224dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97"
+        app:srcCompat="@drawable/darth" />
 </android.support.constraint.ConstraintLayout>
