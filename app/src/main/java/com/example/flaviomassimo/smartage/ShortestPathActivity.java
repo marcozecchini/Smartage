@@ -175,17 +175,21 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                //if(previousPolilyne != null) previousPolilyne.remove();
+                if(previousPolilyne != null) previousPolilyne.remove();
                 LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 LatLng markerLocation = marker.getPosition();
                 ArrayList<LatLng> listLocation = new ArrayList<LatLng>();
-                for (GarbageCollector g : list) listLocation.add(new LatLng(g.getLatitude(), g.getLongitude()));
+                for (GarbageCollector g : list){
+                    if(g.getFullPercentage()>0.5){
+                            listLocation.add(new LatLng(g.getLatitude(), g.getLongitude()));
+                    System.out.println(g.getName());}
+                }
                 GoogleDirection.withServerKey(serverKey)
                         .from(myLocation)
                         .and(listLocation)
-                        .to(myLocation)
-                        .transportMode(TransportMode.DRIVING)
+                        .to(markerLocation)
                         .optimizeWaypoints(true)
+                        .transportMode(TransportMode.DRIVING)
                         .execute(new DirectionCallback() {
                             @Override
                             public void onDirectionSuccess(Direction direction, String rawBody) {
@@ -225,14 +229,36 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
 
                 //Place current location marker
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                /*MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.title("Current Position");
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-                mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
-                */
+
                 //move map camera
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+
+                //if(previousPolilyne != null) previousPolilyne.remove();
+                LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                ArrayList<LatLng> listLocation = new ArrayList<LatLng>();
+                for (GarbageCollector g : list) listLocation.add(new LatLng(g.getLatitude(), g.getLongitude()));
+                GoogleDirection.withServerKey(serverKey)
+                        .from(myLocation)
+                        .and(listLocation)
+                        .to(myLocation)
+                        .transportMode(TransportMode.DRIVING)
+                        .optimizeWaypoints(true)
+                        .execute(new DirectionCallback() {
+                            @Override
+                            public void onDirectionSuccess(Direction direction, String rawBody) {
+                                if (direction.isOK()){
+                                    Route route = direction.getRouteList().get(0);
+
+                                    ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
+                                    previousPolilyne = mGoogleMap.addPolyline(DirectionConverter.createPolyline(context, directionPositionList, 5, Color.RED));
+                                }
+                            }
+
+                            @Override
+                            public void onDirectionFailure(Throwable t) {
+                                Toast.makeText(context,"Error in directions", Toast.LENGTH_LONG);
+                            }
+                        });
             }
         }
     };
