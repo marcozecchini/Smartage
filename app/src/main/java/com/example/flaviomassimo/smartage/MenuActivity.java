@@ -192,6 +192,8 @@ public class MenuActivity extends AppCompatActivity
             Intent i = new Intent(MenuActivity.this,MapsActivity.class);
             startActivity(i);
         } else if (id == R.id.path) {
+            Intent i = new Intent(MenuActivity.this, ShortestPathActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.info) {
             Intent i = new Intent(MenuActivity.this,AboutActivity.class);
