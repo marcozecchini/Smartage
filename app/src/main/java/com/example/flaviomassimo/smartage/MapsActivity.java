@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -63,7 +64,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for(GarbageCollector g: list ) {
             LatLng pos=new LatLng(g.getLatitude(),g.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(pos).title("Marker "+g.getName()));
+           Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(pos)
+                    .title("Marker "+g.getName())
+                    .snippet("Full at "+g.getFullPercentage()*100+"%"));
+
+
+            //mMap.addMarker(new MarkerOptions().position(pos).title("Marker "+g.getName()+"\n Full at"+g.getFullPercentage()));
             }
             LatLng classroom = new LatLng(41.890758, 12.503817);
 
