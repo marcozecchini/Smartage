@@ -175,22 +175,38 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
                     }
                 });
         */
-        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                if(previousPolilyne != null) previousPolilyne.remove();
-                LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                LatLng markerLocation = marker.getPosition();
+
+    }
+
+    Location location = null;
+    LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            List<Location> locationList = locationResult.getLocations();
+            if (locationList.size() > 0) {
+                //The last location in the list is the newest
+                location = locationList.get(locationList.size() - 1);
+                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+                mLastLocation = location;
+                if (mCurrLocationMarker != null) {
+                    mCurrLocationMarker.remove();
+                }
+
+                //Place current location marker
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+                //move map camera
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
                 ArrayList<LatLng> listLocation = new ArrayList<LatLng>();
                 for (GarbageCollector g : list){
                     if(g.getFullPercentage()>0.5){
-                            listLocation.add(new LatLng(g.getLatitude(), g.getLongitude()));
-                    System.out.println(g.getName());}
+                        listLocation.add(new LatLng(g.getLatitude(), g.getLongitude()));
+                        System.out.println(g.getName());}
                 }
                 GoogleDirection.withServerKey(serverKey)
-                        .from(myLocation)
+                        .from(latLng)
                         .and(listLocation)
-                        .to(myLocation)
+                        .to(latLng)
                         .optimizeWaypoints(true)
                         .transportMode(TransportMode.DRIVING)
                         .execute(new DirectionCallback() {
@@ -216,31 +232,6 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
                             }
                         });
 
-                return true;
-            }
-        });
-
-    }
-
-    Location location = null;
-    LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            List<Location> locationList = locationResult.getLocations();
-            if (locationList.size() > 0) {
-                //The last location in the list is the newest
-                location = locationList.get(locationList.size() - 1);
-                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
-                mLastLocation = location;
-                if (mCurrLocationMarker != null) {
-                    mCurrLocationMarker.remove();
-                }
-
-                //Place current location marker
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-                //move map camera
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
             }
         }
     };
