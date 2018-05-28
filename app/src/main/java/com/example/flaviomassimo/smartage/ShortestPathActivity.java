@@ -144,17 +144,48 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));}
             //possibilità di aggiungere icona cestino
         }
+        /*
+        if(previousPolilyne != null) previousPolilyne.remove();
+        LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        ArrayList<LatLng> listLocation = new ArrayList<LatLng>();
+        for (GarbageCollector g : list) listLocation.add(new LatLng(g.getLatitude(), g.getLongitude()));
+        GoogleDirection.withServerKey(serverKey)
+                .from(myLocation)
+                .and(listLocation)
+                .to(myLocation)
+                .transportMode(TransportMode.DRIVING)
+                .optimizeWaypoints(true)
+                .execute(new DirectionCallback() {
+                    @Override
+                    public void onDirectionSuccess(Direction direction, String rawBody) {
+                        if (direction.isOK()){
+                            Route route = direction.getRouteList().get(0);
 
+                            ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
+                            previousPolilyne = mGoogleMap.addPolyline(DirectionConverter.createPolyline(context, directionPositionList, 5, Color.RED));
+                        }
+                    }
+
+                    @Override
+                    public void onDirectionFailure(Throwable t) {
+                        Toast.makeText(context,"Error in directions", Toast.LENGTH_LONG);
+                    }
+                });
+        */
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                if(previousPolilyne != null) previousPolilyne.remove();
+                //if(previousPolilyne != null) previousPolilyne.remove();
                 LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 LatLng markerLocation = marker.getPosition();
+                ArrayList<LatLng> listLocation = new ArrayList<LatLng>();
+                for (GarbageCollector g : list) listLocation.add(new LatLng(g.getLatitude(), g.getLongitude()));
                 GoogleDirection.withServerKey(serverKey)
                         .from(myLocation)
-                        .to(markerLocation)
+                        .and(listLocation)
+                        .to(myLocation)
                         .transportMode(TransportMode.DRIVING)
+                        .optimizeWaypoints(true)
                         .execute(new DirectionCallback() {
                             @Override
                             public void onDirectionSuccess(Direction direction, String rawBody) {
