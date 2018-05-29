@@ -64,13 +64,13 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
     Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
     Context context = this;
-
+    LocationManager locationManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -78,7 +78,9 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        if ( !locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            buildAlertMessageNoGps();
+        }
 
 
         list = SharingValues.getGarbageCollectors();
@@ -106,8 +108,8 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID); //da decidere
 
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(120000); // two minute interval
-        mLocationRequest.setFastestInterval(120000);
+        mLocationRequest.setInterval(3000); // two minute interval
+        mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -304,6 +306,27 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
             // altre righe "case" per cercare altro
             // permessi che questa app potrebbe richiedere
         }
+    }
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                        Intent intent = new Intent(ShortestPathActivity.this, ShortestPathActivity.class);
+                        startActivity(intent);
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 
 }
