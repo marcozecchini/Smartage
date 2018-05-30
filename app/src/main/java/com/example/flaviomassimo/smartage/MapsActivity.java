@@ -94,8 +94,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID); //da decidere
 
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(120000); // two minute interval
-        mLocationRequest.setFastestInterval(120000);
+        mLocationRequest.setInterval(3000); // two minute interval
+        mLocationRequest.setFastestInterval(3000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -116,9 +116,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mGoogleMap.setMyLocationEnabled(true);
         }
 
-
+        LatLng pos=null;
         for(GarbageCollector g: list ) {
-            LatLng pos=new LatLng(g.getLatitude(),g.getLongitude());
+            pos=new LatLng(g.getLatitude(),g.getLongitude());
             if(g.getFullPercentage()<0.33){Marker marker = mGoogleMap.addMarker(new MarkerOptions()
                     .position(pos)
                     .title("Marker "+g.getName())
@@ -140,7 +140,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //mMap.addMarker(new MarkerOptions().position(pos).title("Marker "+g.getName()+"\n Full at"+g.getFullPercentage()));
         }
 
-
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14));
 
     }
 
@@ -166,7 +166,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
 */
                 //move map camera
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
             }
         }
     };

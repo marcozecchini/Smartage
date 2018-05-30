@@ -108,7 +108,7 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID); //da decidere
 
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(3000); // two minute interval
+        mLocationRequest.setInterval(3000);
         mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
@@ -198,7 +198,7 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
                 //move map camera
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
                 ArrayList<LatLng> listLocation = new ArrayList<LatLng>();
                 for (GarbageCollector g : list){
                     if(g.getFullPercentage()>0.5){

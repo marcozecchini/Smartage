@@ -77,74 +77,77 @@ public class MenuActivity extends AppCompatActivity
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
+
                     Iterable<DataSnapshot> value = dataSnapshot.getChildren();
-                    Iterator it= value.iterator();
+                    Iterator it = value.iterator();
                     //System.out.println("pre iteratore");
-                    while(it.hasNext()){
-                        DataSnapshot data=(DataSnapshot) it.next();
-                        GarbageCollector garbage= new GarbageCollector(data.getKey(),(long)data.child("empty").getValue());
-                        garbage.setLatitude((double)data.child("latitude").getValue());
-                        garbage.setLongitude((double)data.child("longitude").getValue());
-                        garbage.setValue((long)data.child("distance").getValue());
-                        garbage.setTemperature((double) data.child("temperature").getValue());
+                   try {
+                       while (it.hasNext()) {
+                           DataSnapshot data = (DataSnapshot) it.next();
+                           GarbageCollector garbage = new GarbageCollector(data.getKey(), (long) data.child("empty").getValue());
+                           garbage.setLatitude((double) data.child("latitude").getValue());
+                           garbage.setLongitude((double) data.child("longitude").getValue());
+                           garbage.setValue((long) data.child("distance").getValue());
+                           garbage.setTemperature((double) data.child("temperature").getValue());
 
-                        garbage.setGyro((String) data.child("gyro").getValue());
-                            int i=0;
+                           garbage.setGyro((String) data.child("gyro").getValue());
+                           int i = 0;
 
-                            for(GarbageCollector g:list){
-                                if(g.getName().equals(garbage.getName())){
-                                    inserted=true;
-                                    if(g.getValue()!=garbage.getValue()){
-                                        g.setValue(garbage.getValue());
-
-
-                                    }
-
-                                }
-                                //System.out.println(g.getName()+", "+g.getValue()+",  " +g.getFullPercentage()*100+"% full");
-                            }
-                            if(!inserted){list.add(garbage); inserted=false;}
+                           for (GarbageCollector g : list) {
+                               if (g.getName().equals(garbage.getName())) {
+                                   inserted = true;
+                                   if (g.getValue() != garbage.getValue()) {
+                                       g.setValue(garbage.getValue());
 
 
+                                   }
+
+                               }
+                               //System.out.println(g.getName()+", "+g.getValue()+",  " +g.getFullPercentage()*100+"% full");
+                           }
+                           if (!inserted) {
+                               list.add(garbage);
+                               inserted = false;
+                           }
 
 
-                        if(garbage.getValue()>10){
-                            garbage.setNotificated(false);
-                        }
+                           if (garbage.getValue() > 10) {
+                               garbage.setNotificated(false);
+                           }
 
-                        if(garbage.getValue()>=0 && garbage.getValue()<=7){
-                            if(!garbage.getNotificated()){
-                                position=garbage.getPosition();
-                                createNotification("Warning!", "the garbage collector at position "+position+" is full!", R.drawable.trash);
-                                mNotificationManager.notify(0, mBuilder.build());
-                                garbage.setNotificated(true);
+                           if (garbage.getValue() >= 0 && garbage.getValue() <= 7) {
+                               if (!garbage.getNotificated()) {
+                                   position = garbage.getPosition();
+                                   createNotification("Warning!", "the garbage collector " + garbage.getName() + " is full!", R.drawable.trash);
+                                   mNotificationManager.notify(0, mBuilder.build());
+                                   garbage.setNotificated(true);
 
-                            }
+                               }
 
-                        }
-                        if(garbage.getTemperature()>70.0){
-                            position=garbage.getPosition();
-                            createNotification("Warning!", "the garbage collector at position "+position+" is too hot!", R.drawable.fire);
-                            mNotificationManager.notify(0, mBuilder.build());
-                            garbage.setTempHot(true);
-                        }
-                        if(garbage.getTemperature()<70){
-                            garbage.setTempHot(false);
-                        }
+                           }
+                           if (garbage.getTemperature() > 70.0) {
+                               position = garbage.getPosition();
+                               createNotification("Warning!", "the garbage collector " + garbage.getName() + " is too hot!", R.drawable.fire);
+                               mNotificationManager.notify(0, mBuilder.build());
+                               garbage.setTempHot(true);
+                           }
+                           if (garbage.getTemperature() < 70) {
+                               garbage.setTempHot(false);
+                           }
 
-                        if(garbage.getGyro().equals("TILT")){
+                           if (garbage.getGyro().equals("TILT")) {
 
-                            position=garbage.getPosition();
-                            createNotification("Warning!", "the garbage collector at position "+position+" is on the floor!", R.drawable.tilt);
-                            mNotificationManager.notify(0, mBuilder.build());
-                            garbage.setTilt(true);
-                        }
-                        if(!garbage.getGyro().equals("TILT")){
-                            garbage.setTilt(false);
+                               position = garbage.getPosition();
+                               createNotification("Warning!", "the garbage collector " + garbage.getName() + " is on the floor!", R.drawable.tilt);
+                               mNotificationManager.notify(0, mBuilder.build());
+                               garbage.setTilt(true);
+                           }
+                           if (!garbage.getGyro().equals("TILT")) {
+                               garbage.setTilt(false);
 
-                        }
-                    }
-
+                           }
+                       }
+                   }catch(Exception e){e.printStackTrace();}
                 }
 
                 @Override
@@ -254,7 +257,7 @@ public class MenuActivity extends AppCompatActivity
 
         System.out.println("ENTRATO NEL BUILDER");
         mBuilder = new NotificationCompat.Builder(this,channel.getId() );
-        intentNotification = new Intent(getApplicationContext(), MenuActivity.class);
+        intentNotification = new Intent(getApplicationContext(), MapsActivity.class);
         pi = PendingIntent.getActivity(this, 0, intentNotification, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -275,13 +278,7 @@ public class MenuActivity extends AppCompatActivity
     }
 
 public void construct(){
-    GarbageCollector garbage= new GarbageCollector("GC-0",20);
-    garbage.setPosition(41.887637,12.521629);
-    list.add(garbage);
 
-    GarbageCollector garbage1= new GarbageCollector("GC-1",20);
-    garbage1.setPosition(41.890758,12.503817);
-    list.add(garbage1);
     GarbageCollector garbage2= new GarbageCollector("GC-2",20);
     garbage2.setPosition(41.892773, 12.504529);
     garbage2.setValue(13.0);
