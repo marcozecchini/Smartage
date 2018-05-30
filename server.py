@@ -59,47 +59,46 @@ create_db_connection()
 while (True):
     try:
         line = ser.readline()
-    
+        print(line)
         if (b'DISTANCE' in line): #20 cm il prototipo da vuoto
             next_message = 5
         elif(next_message == 5):
-                distance=int(line.strip().split(b" ")[1].decode("utf-8"))
-                #print(distance)
-                next_message -= 1
+            distance=int(line.strip().split(b" ")[1].decode("utf-8")[0:3])
+            #print(distance)
+            next_message = 4
         elif(next_message == 4):
-                identifier=line.strip().split(b" ")[1].decode("utf-8")[:-1]
-                #print(identifier)
-                next_message -= 1
-        elif (next_message == 3):
-                empty=int(line.strip().split(b" ")[1].decode("utf-8"))
-                #print(empty)
-                next_message -= 1
-        elif (next_message == 2):
-                #print(line)
-                temperature = float(line.strip().strip(b"@").split(b" ")[1].decode("utf-8"))
-                #print(temperature)
-                next_message -= 1
-        elif (next_message == 1):
-                #print(line)
-                if (b"FI" in line):
-                    gyro = "FINE";
-                else:
-                    gyro = "TILT";
-                #print(gyro)
-                next_message -= 1
-        
-                if (check_if_present(identifier)):
-                    update_value(identifier, distance, empty, temperature, gyro)
-                else:
-                    create_value(identifier, distance, empty, temperature, gyro)
-
-                print("{0} {1} {2} {3} {4}".format(distance, identifier, empty, temperature, gyro))
-                next_message=0
+            #print(line.strip().split(b" ")[1].decode("utf-8")[0:4])
+            identifier=line.strip().split(b" ")[1][0:4].decode("utf-8")
+            next_message = 3
+        elif(next_message == 3):
+            #print(line.strip().split(b" ")[1].decode("utf-8")[0:3])
+            empty=int(line.strip().split(b" ")[1][0:3].decode("utf-8"))
+            #print(empty)
+            next_message = 2
+        elif(next_message == 2):
+            next_message = 1
+            #print(line.strip().split(b" ")[1][0:4].decode("utf-8"))
+            temperature = float(line.strip().split(b" ")[1][0:4].decode("utf-8"))
+        elif(next_message == 1):
+            #print(line)
+            if (b"FI" in line):
+                gyro = "FINE";
+            else:
+                gyro = "TILT";
+            #print(gyro)
+            if (check_if_present(identifier)):
+                update_value(identifier, distance, empty, temperature, gyro)
+            else:
+                create_value(identifier, distance, empty, temperature, gyro)
+            print("----------------------- > {0} {1} {2} {3} {4}".format(distance, identifier, empty, temperature, gyro))
+            next_message=0
 
     except UnicodeDecodeError:
-           print("Errore nello unicode")
+           #print("Errore nello unicode")
+            continue
     except ValueError:
-           print("Ricevuto valore non valido")
+           #print("Ricevuto valore non valido")
+            continue
     except KeyboardInterrupt:
            print("Fine esecuzione")
            exit()
