@@ -10,3 +10,5 @@ smartage-ps2018-firebase.json
 /captures
 .externalNativeBuild
 /.idea/*
+/app/src/main/java/com/example/flaviomassimo/smartage/Constants.java
+/app/src/debug/res/values/google_maps_api.xml
