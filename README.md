@@ -17,8 +17,24 @@ This project was developped for the "Pervasive System" course edition of 2018 at
 ![alt-text](https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/Architecture.png)
 ![alt-text](https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/Garbage.png)
 
+
+## Android App
+The Android Application analyze the changes of information inside the FireBase Database and then report on the Google map inside the App the status of the garbage collectors, providing also the possibility of compute the shortest path among them.
+
+From this DataBase the Application also manage the User Credentials for the login. 
+
+![alt-text](https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/app.png) 
+![alt-text](https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/app2.png)
+
+
 ## Useful links
 * [Initial Concept & User Evaluation presentation](https://www.slideshare.net/AlessandroTrapasso/smartage)
 * [MVP presentation](https://www.slideshare.net/AlessandroTrapasso/smartage-student-group-projects-mvp)
 * Final presentation
 * [Discovery Kit STM32L072Z code](https://os.mbed.com/users/marcozecchini/code/Smartage/)
+
+## Contributors 
+* [Marco Zecchini](https://www.linkedin.com/in/marco-zecchini/)
+* [Flavio Massimo Falesiedi](https://www.linkedin.com/in/flavio-massimo-falesiedi-37b61b163/)
+* [Alessandro Trapasso](https://www.linkedin.com/in/alessandro-trapasso/)
+* [Federico Mascoma](https://www.linkedin.com/in/federico-mascoma/)
