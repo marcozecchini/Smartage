@@ -108,8 +108,8 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID); //da decidere
 
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(3000);
-        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setInterval(60000);
+        mLocationRequest.setFastestInterval(60000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

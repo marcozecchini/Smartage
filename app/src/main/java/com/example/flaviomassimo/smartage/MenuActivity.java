@@ -111,15 +111,16 @@ public class MenuActivity extends AppCompatActivity
                            }
 
 
-                           if (garbage.getValue() > 10) {
+                           if (garbage.getValue() > garbage.getEmptyValue()/3) {
                                garbage.setNotificated(false);
                            }
 
-                           if (garbage.getValue() >= 0 && garbage.getValue() <= 7) {
+                           if (garbage.getValue() >= 0 && garbage.getValue() <= garbage.getEmptyValue()/3) {
                                if (!garbage.getNotificated()) {
                                    position = garbage.getPosition();
                                    createNotification("Warning!", "the garbage collector " + garbage.getName() + " is full!", R.drawable.trash);
                                    mNotificationManager.notify(0, mBuilder.build());
+                                   System.out.println(garbage.getNotificated());
                                    garbage.setNotificated(true);
 
                                }
