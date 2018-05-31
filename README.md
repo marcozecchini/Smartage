@@ -26,12 +26,13 @@ From this DataBase the Application also manage the User Credentials for the logi
 ![alt-text](https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/app.png) 
 ![alt-text](https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/app2.png)
 
+## ARM MBED OS Code
+To see the code within the boards visit [this page](https://os.mbed.com/users/marcozecchini/code/Smartage/)
 
 ## Useful links
 * [Initial Concept & User Evaluation presentation](https://www.slideshare.net/AlessandroTrapasso/smartage)
 * [MVP presentation](https://www.slideshare.net/AlessandroTrapasso/smartage-student-group-projects-mvp)
 * Final presentation
-* [Discovery Kit STM32L072Z code](https://os.mbed.com/users/marcozecchini/code/Smartage/)
 
 ## Contributors 
 * [Marco Zecchini](https://www.linkedin.com/in/marco-zecchini/)
