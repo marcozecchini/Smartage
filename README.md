@@ -32,7 +32,7 @@ To see the code within the boards visit [this page](https://os.mbed.com/users/ma
 ## Useful links
 * [Initial Concept & User Evaluation presentation](https://www.slideshare.net/AlessandroTrapasso/smartage)
 * [MVP presentation](https://www.slideshare.net/AlessandroTrapasso/smartage-student-group-projects-mvp)
-* Final presentation
+* [Final presentation](https://www.slideshare.net/AlessandroTrapasso/smartage-finalpresentation)
 
 ## Contributors 
 * [Marco Zecchini](https://www.linkedin.com/in/marco-zecchini/)
