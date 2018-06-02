@@ -26,7 +26,11 @@ From this DataBase the Application also manage the User Credentials for the logi
 ![alt-text](https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/app.png) 
 ![alt-text](https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/app2.png)
 
-#Prototype
+## Prototype
+<a href="url"><img src="https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/1.jpg" height="307.12" width="401.13" ></a>
+<a href="url"><img src="https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/2.jpg"  height="308.87" width="431.12" ></a>
+
+
 
 
 
