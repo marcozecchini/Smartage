@@ -25,6 +25,7 @@ From this DataBase the Application also manage the User Credentials for the logi
 
 ![alt-text](https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/app.png) 
 ![alt-text](https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/app2.png)
+![alt-text](https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/IMG_9159.JPG)
 
 ## ARM MBED OS Code
 To see the code within the boards visit [this page](https://os.mbed.com/users/marcozecchini/code/Smartage/)
