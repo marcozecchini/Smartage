@@ -33,6 +33,7 @@ This are images of the prototype realized by our team
 
 <a href="url"><img src="https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/1.jpg" height="307.12" width="401.13" ></a>
 <a href="url"><img src="https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/2.jpg"  height="308.87" width="431.12" ></a>
+<a href="url"><img src="https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/IMG_9162.jpg"  height="658" width="836" ></a>
 
 ## ARM MBED OS Code
 
