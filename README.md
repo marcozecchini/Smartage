@@ -29,7 +29,7 @@ The following screenshots show how to app works, the facility that it offers and
 ![alt-text](https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/app2.png)
 
 ## Prototype
-This are images of the prototype realized by our team
+These are images of the prototype realized by our team
 
 <a href="url"><img src="https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/1.jpg" height="307.12" width="401.13" ></a>
 <a href="url"><img src="https://github.com/marcozecchini/Smartage/blob/master/ReadMe%20Images/2.jpg"  height="308.87" width="431.12" ></a>
