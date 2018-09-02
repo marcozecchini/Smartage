@@ -1,6 +1,5 @@
 # Smartage
 Smartage is a solution for the management of the garbage aiming to simplify the monitoring and the collection in a city. It measures the fill-level of a garbage collector, while monitoring the temperature and the orientation and provides an Android application that allows to have a view of the garbage collectors in an area, and provides the possibility to develop the shortest path among them.
-This project was developped for the "Pervasive System" course edition of 2018 at "La Sapienza" university.
 
 ## Technologies involved in the project
 ### Hardware
