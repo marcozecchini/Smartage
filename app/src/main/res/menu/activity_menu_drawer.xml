@@ -18,6 +18,11 @@
             android:title="Shortest Path" />
 
         <item
+            android:id="@+id/report"
+            android:icon="@drawable/exclamation_mark_sign"
+            android:title="Report something" />
+
+        <item
             android:id="@+id/out"
             android:icon="@drawable/out"
             android:title="Log Out" />

@@ -1,4 +1,4 @@
-package com.example.flaviomassimo.smartage;
+package com.example.flaviomassimo.smartage.Model;
 
 import java.util.LinkedList;
 

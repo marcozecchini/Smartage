@@ -6,16 +6,14 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.support.v4.app.NotificationCompat;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.example.flaviomassimo.smartage.Model.GarbageCollector;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Garbage_Thread extends Application implements Runnable {
+public class DB_Thread extends Application implements Runnable {
     LinkedList<GarbageCollector> list=SharingValues.getGarbageCollectors();
     private String position="";
     private NotificationChannel channel;
@@ -25,14 +23,14 @@ public class Garbage_Thread extends Application implements Runnable {
     private DatabaseReference myRef;
     private FirebaseDatabase database;
     private ValueEventListener val;
-    public Garbage_Thread(NotificationChannel chan, NotificationManager man, NotificationCompat.Builder build,PendingIntent pending,ValueEventListener valEvent) {
+    public DB_Thread(NotificationChannel chan, NotificationManager man, NotificationCompat.Builder build, PendingIntent pending, ValueEventListener valEvent) {
 
         channel=chan;
         mNotificationManager=man;
         mBuilder=build;
         pendingIntent=pending;
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("GCs");
+        myRef = database.getReference();
         val=valEvent;
     }
 

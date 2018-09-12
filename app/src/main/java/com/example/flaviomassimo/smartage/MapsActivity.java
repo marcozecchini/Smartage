@@ -1,15 +1,11 @@
 package com.example.flaviomassimo.smartage;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
@@ -19,6 +15,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.flaviomassimo.smartage.Model.GarbageCollector;
+import com.example.flaviomassimo.smartage.Model.Report;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -34,12 +32,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    LinkedList<GarbageCollector> list;
+    LinkedList<GarbageCollector> garbageCollectors;
+    ArrayList<Report> reportList;
 
 
     private FusedLocationProviderClient FusedLocationClient;
@@ -51,36 +52,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Location mLastLocation;
     Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
-
+    HashMap<Marker, Report> hashMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
-
-        list = SharingValues.getGarbageCollectors();
-        for (GarbageCollector g : list) {
+        garbageCollectors = SharingValues.getGarbageCollectors();
+        reportList = SharingValues.getReportList();
+        hashMap = new HashMap<>();
+        for (GarbageCollector g : garbageCollectors) {
             System.out.println(g.getName() + ", " + g.getValue() + ",  " + g.getFullPercentage() * 100 + "% full");
-
         }
-
-
-
     }
+
     @Override
     public void onPause() {
         super.onPause();
-
         //stop location updates when Activity is no longer active
         if (mFusedLocationClient != null) {
             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
@@ -110,38 +102,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 checkLocationPermission();
 
             }
-        }
-        else {
+        } else {
             mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
             mGoogleMap.setMyLocationEnabled(true);
         }
 
-        LatLng pos=null;
-        for(GarbageCollector g: list ) {
-            pos=new LatLng(g.getLatitude(),g.getLongitude());
-            if(g.getFullPercentage()<0.33){Marker marker = mGoogleMap.addMarker(new MarkerOptions()
-                    .position(pos)
-                    .title("Marker "+g.getName())
-                    .snippet("Full at "+g.getFullPercentage()*100+"%")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));}
-            else if(g.getFullPercentage()>=0.33 && g.getFullPercentage()<=0.66){Marker marker = mGoogleMap.addMarker(new MarkerOptions()
-                    .position(pos)
-                    .title("Marker "+g.getName())
-                    .snippet("Full at "+g.getFullPercentage()*100+"%")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));}
-            else{Marker marker = mGoogleMap.addMarker(new MarkerOptions()
-                    .position(pos)
-                    .title("Marker "+g.getName())
-                    .snippet("Full at "+g.getFullPercentage()*100+"%")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));}
-
-
-
+        LatLng pos = null;
+        for (GarbageCollector g : garbageCollectors) {
+            pos = new LatLng(g.getLatitude(), g.getLongitude());
+            if (g.getFullPercentage() < 0.33) {
+                Marker marker = mGoogleMap.addMarker(new MarkerOptions()
+                        .position(pos)
+                        .title("Marker " + g.getName())
+                        .snippet("Full at " + g.getFullPercentage() * 100 + "%")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            } else if (g.getFullPercentage() >= 0.33 && g.getFullPercentage() <= 0.66) {
+                Marker marker = mGoogleMap.addMarker(new MarkerOptions()
+                        .position(pos)
+                        .title("Marker " + g.getName())
+                        .snippet("Full at " + g.getFullPercentage() * 100 + "%")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+            } else {
+                Marker marker = mGoogleMap.addMarker(new MarkerOptions()
+                        .position(pos)
+                        .title("Marker " + g.getName())
+                        .snippet("Full at " + g.getFullPercentage() * 100 + "%")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            }
             //mMap.addMarker(new MarkerOptions().position(pos).title("Marker "+g.getName()+"\n Full at"+g.getFullPercentage()));
         }
 
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14));
+        for (Report r : reportList) {
+            pos = new LatLng(r.getLatitude(), r.getLongitude());
+            Marker marker = mGoogleMap.addMarker(new MarkerOptions()
+                    .position(pos)
+                    .title("Urgency: " + r.getUrgency())
+                    .snippet(r.getTextBox())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+            );
 
+            hashMap.put(marker,r);
+        }
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14));
+        mGoogleMap.setOnMarkerClickListener(this);
     }
 
     LocationCallback mLocationCallback = new LocationCallback() {
@@ -149,7 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         public void onLocationResult(LocationResult locationResult) {
             List<Location> locationList = locationResult.getLocations();
             if (locationList.size() > 0) {
-                //The last location in the list is the newest
+                //The last location in the garbageList is the newest
                 Location location = locationList.get(locationList.size() - 1);
                 Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;
@@ -172,6 +175,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     };
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
     private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -192,7 +196,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 //Prompt the user once explanation has been shown
                                 ActivityCompat.requestPermissions(MapsActivity.this,
                                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                        MY_PERMISSIONS_REQUEST_LOCATION );
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
                             }
                         })
                         .create()
@@ -203,7 +207,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION );
+                        MY_PERMISSIONS_REQUEST_LOCATION);
             }
         }
     }
@@ -242,4 +246,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        String title = marker.getTitle();
+        if (title.equals("Urgency: High") || title.equals("Urgency: Normal") || title.equals("Urgency: Low")) {
+            Intent i = new Intent(MapsActivity.this, SolveReportActivity.class);
+            i.putExtra("report", hashMap.get(marker));
+            startActivity(i);
+            return true;
+        }
+        return false;
+    }
 }

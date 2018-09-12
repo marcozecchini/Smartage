@@ -1,14 +1,12 @@
 package com.example.flaviomassimo.smartage;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -28,6 +26,7 @@ import com.akexorcist.googledirection.model.Leg;
 import com.akexorcist.googledirection.model.Route;
 import com.akexorcist.googledirection.model.Step;
 import com.akexorcist.googledirection.util.DirectionConverter;
+import com.example.flaviomassimo.smartage.Model.GarbageCollector;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -153,7 +152,7 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
         if(previousPolilyne != null) previousPolilyne.remove();
         LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
         ArrayList<LatLng> listLocation = new ArrayList<LatLng>();
-        for (GarbageCollector g : list) listLocation.add(new LatLng(g.getLatitude(), g.getLongitude()));
+        for (GarbageCollector g : garbageList) listLocation.add(new LatLng(g.getLatitude(), g.getLongitude()));
         GoogleDirection.withServerKey(serverKey)
                 .from(myLocation)
                 .and(listLocation)
@@ -186,7 +185,7 @@ public class ShortestPathActivity extends FragmentActivity implements OnMapReady
         public void onLocationResult(LocationResult locationResult) {
             List<Location> locationList = locationResult.getLocations();
             if (locationList.size() > 0) {
-                //The last location in the list is the newest
+                //The last location in the garbageList is the newest
                 location = locationList.get(locationList.size() - 1);
                 Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;

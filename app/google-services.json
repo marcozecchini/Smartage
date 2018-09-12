@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "933855301940-u00sqkn3e8idkkd23cm0o30578alvdbo.apps.googleusercontent.com",
+          "client_id": "933855301940-anv0jnjmsf2moogbp6tk2upuas7arec3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.flaviomassimo.smartage",
-            "certificate_hash": "e00d5d26281daa9cb11c9bdf0853900ddd0edff1"
+            "certificate_hash": "d8b95c0426d2afed78c187d70918bd5101475522"
           }
         },
         {

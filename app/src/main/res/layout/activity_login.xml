@@ -117,7 +117,6 @@
             android:paddingRight="16dp"
             android:visibility="gone"
             android:weightSum="2.0">
-
             <Button
                 android:id="@+id/sign_out_button"
                 style="@style/Widget.AppCompat.Button.Colored"

@@ -1,10 +1,13 @@
 package com.example.flaviomassimo.smartage;
 
+import com.example.flaviomassimo.smartage.Model.GarbageCollector;
+import com.example.flaviomassimo.smartage.Model.Report;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 public class SharingValues {
 
@@ -13,6 +16,18 @@ public class SharingValues {
     private static FirebaseUser user;
     private static FirebaseAuth auth;
     private static LinkedList<GarbageCollector> CollectorList= new LinkedList<>();
+    private static ArrayList<Report> ReportList= new ArrayList<>();
+
+
+
+    public static ArrayList<Report> getReportList() {
+        return ReportList;
+    }
+
+    public static void setReportList(ArrayList<Report> reportList) {
+        ReportList = reportList;
+    }
+
 
     public static void setFullName(String name){
 
