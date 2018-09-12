@@ -15,15 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "933855301940-anv0jnjmsf2moogbp6tk2upuas7arec3.apps.googleusercontent.com",
+          "client_id": "933855301940-02edtecmgf1j96m2kghu78sb1se24h1i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.flaviomassimo.smartage",
-            "certificate_hash": "d8b95c0426d2afed78c187d70918bd5101475522"
+            "certificate_hash": "1be62a67618473b3d67d2877ec61526346e955ed"
           }
         },
         {
-          "client_id": "933855301940-95cl3uktsb36mufm6b83b6hsileei5op.apps.googleusercontent.com",
+          "client_id": "933855301940-qrfcflockko51gfie0u978eva5j95q0l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "933855301940-95cl3uktsb36mufm6b83b6hsileei5op.apps.googleusercontent.com",
+              "client_id": "933855301940-qrfcflockko51gfie0u978eva5j95q0l.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

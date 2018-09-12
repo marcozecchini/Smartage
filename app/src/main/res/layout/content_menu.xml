@@ -15,7 +15,7 @@
         android:layout_marginBottom="352dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Smartage is a project for the course of Pervasive Systems a.y. 2017/2018 in the Sapienza University. The main idea is to allow to manage the garbage collectors of an area, in fact we can see if they are currently full or the percentage of their fullness. We can also see the shortest path among the full garbage collectors in order to develop a smart way of collection of the trash."
+        android:text="The main idea behind Smartage is to allow to manage the garbage collectors of an area, monitoring if they are currently full and the percentage of their fullness. We can also see the shortest path among the full garbage collectors in order to develop a smart way of collection of the trash."
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
