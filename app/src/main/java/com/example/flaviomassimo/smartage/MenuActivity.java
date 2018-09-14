@@ -53,6 +53,7 @@ public class MenuActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         System.out.println("precreazione");
+        construct();
         for (GarbageCollector c : garbageList) {
 
             System.out.println(c.getName() + ", " + c.getValue());
@@ -172,7 +173,7 @@ public class MenuActivity extends AppCompatActivity
 
             }
         });
-
+        //TODO aggiorna in automatico il db aggiundendo dei report quando non deve
         GARBAGE_THREAD = new Thread(new DB_Thread(channel, mNotificationManager, mBuilder, pi, valEvent));
         GARBAGE_THREAD.start();
         System.out.println("thread partito");
@@ -292,36 +293,37 @@ public class MenuActivity extends AppCompatActivity
 
     }
 
+
+
+public void construct(){
+
+        GarbageCollector garbage2= new GarbageCollector("GC-2",20);
+        garbage2.setPosition(41.892773, 12.504529);
+        garbage2.setValue(13.0);
+        garbageList.add(garbage2);
+        GarbageCollector garbage3= new GarbageCollector("GC-3",20);
+        garbage3.setPosition(41.895353, 12.500699);
+        garbage3.setValue(9);
+        garbageList.add(garbage3);
+        GarbageCollector garbage4= new GarbageCollector("GC-4",20);
+        garbage4.setPosition(41.891448,12.499240);
+        garbage4.setValue(18);
+        garbageList.add(garbage4);
+        GarbageCollector garbage5= new GarbageCollector("GC-5",20);
+        garbage5.setPosition(41.888836,12.494938);
+        garbage5.setValue(2);
+        garbageList.add(garbage5);
+        GarbageCollector garbage6= new GarbageCollector("GC-6",20);
+        garbage6.setPosition(41.878971,12.503019);
+        garbage6.setValue(8);
+        garbageList.add(garbage6);
+        GarbageCollector garbage7= new GarbageCollector("GC-7",20);
+        garbage7.setPosition(41.876638,12.507407);
+        garbage7.setValue(3);
+        garbageList.add(garbage7);
+        GarbageCollector garbage8= new GarbageCollector("GC-8",20);
+        garbage8.setPosition(41.881040,12.509867);
+        garbage8.setValue(5);
+        garbageList.add(garbage8);
+    }
 }
-
-/*public void construct(){
-
-    GarbageCollector garbage2= new GarbageCollector("GC-2",20);
-    garbage2.setPosition(41.892773, 12.504529);
-    garbage2.setValue(13.0);
-    garbageList.add(garbage2);
-    GarbageCollector garbage3= new GarbageCollector("GC-3",20);
-    garbage3.setPosition(41.895353, 12.500699);
-    garbage3.setValue(9);
-    garbageList.add(garbage3);
-    GarbageCollector garbage4= new GarbageCollector("GC-4",20);
-    garbage4.setPosition(41.891448,12.499240);
-    garbage4.setValue(18);
-    garbageList.add(garbage4);
-    GarbageCollector garbage5= new GarbageCollector("GC-5",20);
-    garbage5.setPosition(41.888836,12.494938);
-    garbage5.setValue(2);
-    garbageList.add(garbage5);
-    GarbageCollector garbage6= new GarbageCollector("GC-6",20);
-    garbage6.setPosition(41.878971,12.503019);
-    garbage6.setValue(8);
-    garbageList.add(garbage6);
-    GarbageCollector garbage7= new GarbageCollector("GC-7",20);
-    garbage7.setPosition(41.876638,12.507407);
-    garbage7.setValue(3);
-    garbageList.add(garbage7);
-    GarbageCollector garbage8= new GarbageCollector("GC-8",20);
-    garbage8.setPosition(41.881040,12.509867);
-    garbage8.setValue(5);
-    garbageList.add(garbage8);}
-}*/
