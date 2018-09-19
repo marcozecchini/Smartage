@@ -53,6 +53,7 @@ public class SolveReportActivity extends AppCompatActivity implements View.OnCli
                                 list.remove(r);
                         Intent i = new Intent(SolveReportActivity.this, MenuActivity.class);
                         startActivity(i);
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

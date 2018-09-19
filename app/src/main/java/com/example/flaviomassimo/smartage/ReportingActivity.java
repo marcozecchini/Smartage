@@ -117,6 +117,7 @@ public class ReportingActivity extends AppCompatActivity implements AdapterView.
 
         Intent i = new Intent(ReportingActivity.this, MenuActivity.class);
         startActivity(i);
+        finish();
     }
 
     private void AskForLocation() {

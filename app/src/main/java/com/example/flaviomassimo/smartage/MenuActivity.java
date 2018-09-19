@@ -248,6 +248,7 @@ public class MenuActivity extends AppCompatActivity
             SharingValues.setLogOut(true);
             Intent i = new Intent(MenuActivity.this, LoginActivity.class);
             startActivity(i);
+            finish();
         } else if (id == R.id.report) {
             Intent i = new Intent(MenuActivity.this, ReportingActivity.class);
             startActivity(i);

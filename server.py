@@ -44,7 +44,7 @@ def create_value(gc_id, value, empty, temperature, gyro):
 next_message = 0
 #set the serial communication
 ser = serial.Serial()
-ser.port = 'COM3'
+ser.port = 'COM4'
 ser.baudrate = 230400
 ser.open()
 print("WAITING FOR MESSAGES")
