@@ -185,3 +185,14 @@ To see the code within the boards visit [this page](https://os.mbed.com/users/ma
 Smartage needs a Python script to read data passed by the receiver device on the serial port and to upload this data on Firebase. The file implementing this facility read correctly the formatted data on the serial port and using some functions verify if it's necessary to upload some data in the realtime database for an already stored garbage collector or to register for the first time the garbage collector and its data.
 To see the script visit [this page](https://github.com/marcozecchini/Smartage/blob/master/server.py)
 
+
+## Useful links
+* [Initial Concept & User Evaluation presentation](https://www.slideshare.net/AlessandroTrapasso/smartage)
+* [MVP presentation](https://www.slideshare.net/AlessandroTrapasso/smartage-student-group-projects-mvp)
+* [Final presentation](https://www.slideshare.net/AlessandroTrapasso/smartage-finalpresentation)
+
+## Contributors 
+* [Marco Zecchini](https://www.linkedin.com/in/marco-zecchini/)
+* [Flavio Massimo Falesiedi](https://www.linkedin.com/in/flavio-massimo-falesiedi-37b61b163/)
+* [Alessandro Trapasso](https://www.linkedin.com/in/alessandro-trapasso/)
+* [Federico Mascoma](https://www.linkedin.com/in/federico-mascoma/)
